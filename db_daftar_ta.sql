@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2023 at 09:47 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Dec 15, 2023 at 04:14 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 7.4.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,35 +18,34 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_daftar ta`
+-- Database: `db_ta`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dosen pembimbing`
+-- Table structure for table `bimbingan`
 --
 
-CREATE TABLE `dosen pembimbing` (
-  `id_Dosen` int(5) NOT NULL,
-  `Nip` int(8) NOT NULL,
-  `Nama` varchar(30) NOT NULL,
-  `Alamat` varchar(50) NOT NULL,
-  `No_Telpon` int(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `bimbingan` (
+  `ID_Bimbingan` int(10) NOT NULL,
+  `NID` int(10) NOT NULL,
+  `ID_TA` int(10) NOT NULL,
+  `Tanggal_Bimbingan` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `jurusan`
+-- Table structure for table `dosen`
 --
 
-CREATE TABLE `jurusan` (
-  `id_jurusan` int(5) NOT NULL,
-  `Nama_Jurusan` char(30) NOT NULL,
-  `Program studi` char(30) NOT NULL,
-  `Fakultas` char(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `dosen` (
+  `NID` int(10) NOT NULL,
+  `Nama_Dosen` varchar(30) NOT NULL,
+  `Jurusan` varchar(15) NOT NULL,
+  `Email` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -55,78 +54,100 @@ CREATE TABLE `jurusan` (
 --
 
 CREATE TABLE `mahasiswa` (
-  `id_Mahasiswa` int(8) NOT NULL,
-  `Nama` varchar(30) NOT NULL,
-  `Nim` int(10) NOT NULL,
-  `Jenis_Kelamin` char(1) NOT NULL,
-  `No_telpon` int(12) NOT NULL,
-  `Alamat` int(50) NOT NULL,
-  `id_Jurusan` int(30) NOT NULL,
-  `Tugas Akhir` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `NIM` int(10) NOT NULL,
+  `Nama_Mahasiswa` varchar(40) NOT NULL,
+  `Jurusan` varchar(15) NOT NULL,
+  `Email` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tugas akhir`
+-- Table structure for table `seminar`
 --
 
-CREATE TABLE `tugas akhir` (
-  `id_Tugas_akhir` int(5) NOT NULL,
-  `id_Mahasiswa` int(8) NOT NULL,
-  `id_Dosen` int(5) NOT NULL,
-  `judul` char(30) NOT NULL,
-  `Deskripsi` text NOT NULL,
-  `status` char(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `seminar` (
+  `ID_Seminar` int(10) NOT NULL,
+  `ID_TA` int(10) NOT NULL,
+  `NID` int(10) NOT NULL,
+  `Tanggal_Seminar` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tugas_akhir`
+--
+
+CREATE TABLE `tugas_akhir` (
+  `ID_TA` int(10) NOT NULL,
+  `NIM` int(10) NOT NULL,
+  `Judul_TA` varchar(40) NOT NULL,
+  `Tanggal_Pengajuan` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `dosen pembimbing`
+-- Indexes for table `bimbingan`
 --
-ALTER TABLE `dosen pembimbing`
-  ADD PRIMARY KEY (`id_Dosen`);
+ALTER TABLE `bimbingan`
+  ADD PRIMARY KEY (`ID_Bimbingan`),
+  ADD KEY `NID` (`NID`),
+  ADD KEY `ID_TA` (`ID_TA`);
 
 --
--- Indexes for table `jurusan`
+-- Indexes for table `dosen`
 --
-ALTER TABLE `jurusan`
-  ADD PRIMARY KEY (`id_jurusan`);
+ALTER TABLE `dosen`
+  ADD PRIMARY KEY (`NID`);
 
 --
 -- Indexes for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  ADD PRIMARY KEY (`id_Mahasiswa`),
-  ADD KEY `id_Jurusan` (`id_Jurusan`);
+  ADD PRIMARY KEY (`NIM`);
 
 --
--- Indexes for table `tugas akhir`
+-- Indexes for table `seminar`
 --
-ALTER TABLE `tugas akhir`
-  ADD PRIMARY KEY (`id_Tugas_akhir`),
-  ADD KEY `id_Mahasiswa` (`id_Mahasiswa`),
-  ADD KEY `id_Dosen` (`id_Dosen`);
+ALTER TABLE `seminar`
+  ADD PRIMARY KEY (`ID_Seminar`),
+  ADD KEY `ID_TA` (`ID_TA`),
+  ADD KEY `NID` (`NID`);
+
+--
+-- Indexes for table `tugas_akhir`
+--
+ALTER TABLE `tugas_akhir`
+  ADD PRIMARY KEY (`ID_TA`),
+  ADD KEY `NIM` (`NIM`);
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `mahasiswa`
+-- Constraints for table `bimbingan`
 --
-ALTER TABLE `mahasiswa`
-  ADD CONSTRAINT `mahasiswa_ibfk_1` FOREIGN KEY (`id_Jurusan`) REFERENCES `jurusan` (`id_jurusan`);
+ALTER TABLE `bimbingan`
+  ADD CONSTRAINT `bimbingan_ibfk_1` FOREIGN KEY (`ID_TA`) REFERENCES `tugas_akhir` (`ID_TA`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `bimbingan_ibfk_2` FOREIGN KEY (`NID`) REFERENCES `dosen` (`NID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `tugas akhir`
+-- Constraints for table `seminar`
 --
-ALTER TABLE `tugas akhir`
-  ADD CONSTRAINT `tugas akhir_ibfk_1` FOREIGN KEY (`id_Mahasiswa`) REFERENCES `mahasiswa` (`id_Mahasiswa`),
-  ADD CONSTRAINT `tugas akhir_ibfk_2` FOREIGN KEY (`id_Dosen`) REFERENCES `dosen pembimbing` (`id_Dosen`);
+ALTER TABLE `seminar`
+  ADD CONSTRAINT `seminar_ibfk_1` FOREIGN KEY (`ID_TA`) REFERENCES `tugas_akhir` (`ID_TA`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `seminar_ibfk_2` FOREIGN KEY (`NID`) REFERENCES `dosen` (`NID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tugas_akhir`
+--
+ALTER TABLE `tugas_akhir`
+  ADD CONSTRAINT `tugas_akhir_ibfk_1` FOREIGN KEY (`NIM`) REFERENCES `mahasiswa` (`NIM`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
