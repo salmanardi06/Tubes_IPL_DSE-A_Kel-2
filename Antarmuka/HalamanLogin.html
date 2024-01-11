@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Login</title>
     <link rel="stylesheet" type="text/css" href="HalamanLogin.css">
-    <body><br><br><br><br><br><br>
-        <h2><center>Login</center></h2>
-        <form>
-            <center><label>NIM</label><br></center>
-            <center><input type="text"><br><br></center>
-            <center><label>Password</label><br></center>
-            <center><input type="password"><br><br></center>
-            <center><button>Log in</button></center>
-        </form>
-    </body>
+</head>
+<body><br><br><br><br><br><br>
+    <h2><center>Login</center></h2>
+    <form onsubmit="return redirectToIndex()">
+        <center><label>NIM</label><br></center>
+        <center><input type="text" id="nimInput"><br><br></center>
+        <center><label>Password</label><br></center>
+        <center><input type="password" id="passwordInput"><br><br></center>
+        <center><button type="submit">Log in</button></center>
+    </form>
+
+    <script>
+        function redirectToIndex() {
+            var nim = document.getElementById("nimInput").value;
+            var password = document.getElementById("passwordInput").value;
+
+            // Implement your login logic here.
+            // For now, let's just redirect to index.html if NIM and password are not empty.
+            if (nim && password) {
+                window.location.href = 'index.html';
+            }
+
+            // Prevent the form from submitting (to avoid page reload).
+            return false;
+        }
+    </script>
+</body>
 </html>
