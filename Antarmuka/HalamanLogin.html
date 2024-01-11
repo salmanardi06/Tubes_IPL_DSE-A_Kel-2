@@ -21,13 +21,9 @@
             var nim = document.getElementById("nimInput").value;
             var password = document.getElementById("passwordInput").value;
 
-            // Implement your login logic here.
-            // For now, let's just redirect to index.html if NIM and password are not empty.
             if (nim && password) {
                 window.location.href = 'index.html';
             }
-
-            // Prevent the form from submitting (to avoid page reload).
             return false;
         }
     </script>
